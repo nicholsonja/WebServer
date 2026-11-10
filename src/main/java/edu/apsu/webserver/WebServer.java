@@ -43,7 +43,7 @@ public class WebServer {
 
         int quoteNum = RANDOM.nextInt(quotes.length);
         String message = "<html>"
-                + "<h1 style='text-align:center'>Quote " + quoteNum + "</h1>"
+                + "<h1 style='text-align:center'>Quote " + (quoteNum + 1) + "</h1>"
                 + "<p style='text-align:center'>" + quotes[quoteNum] + "</p>"
                 + "</html>";
         
