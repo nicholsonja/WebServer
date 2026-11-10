@@ -27,14 +27,32 @@ public class WebServer {
 
     private static void handle(HttpExchange exchange) throws IOException {
 
-        System.out.println("Request from " + exchange.getRemoteAddress());
+        System.out.println("Request from " + exchange.getRemoteAddress() + " for " + exchange.getRequestURI());
 
-        int number = RANDOM.nextInt(100) + 1;
-        String message = "Hello\n" + number + "\n";
+        if (!exchange.getRequestURI().getPath().equals("/")) {
+            exchange.sendResponseHeaders(404, -1);
+            exchange.close();
+            return;
+        }
+
+        final String[] quotes = {
+            "To be, or not to be. - William Shakespeare",
+            "I came, I saw, I conquered. - Julius Caesar",
+            "Knowledge is power. - Francis Bacon"
+        };
+
+        int quoteNum = RANDOM.nextInt(quotes.length);
+        String message = "<html>"
+                + "<h1 style='text-align:center'>Quote " + quoteNum + "</h1>"
+                + "<p style='text-align:center'>" + quotes[quoteNum] + "</p>"
+                + "</html>";
+        
+        System.out.println("Sent quote: " + quotes[quoteNum]);
+
         
         byte[] body = message.getBytes(StandardCharsets.UTF_8);
 
-        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
+        exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
         exchange.sendResponseHeaders(200, body.length);
 
