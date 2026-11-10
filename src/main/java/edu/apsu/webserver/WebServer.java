@@ -30,7 +30,7 @@ public class WebServer {
         System.out.println("Request from " + exchange.getRemoteAddress());
 
         int number = RANDOM.nextInt(100) + 1;
-        String message = "Hello!!\n" + number + "\n";
+        String message = "Hello\n" + number + "\n";
         
         byte[] body = message.getBytes(StandardCharsets.UTF_8);
 
